@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title>learn vue</title>
+            <meta content="text/html; charset=utf-8" />
+            <link href="main.css" rel="stylesheet">
+            
+        </head> 
+        <body>
+            
+            <div id='app'>
+                <input v-model="message">
+                <h1>{{ message }}</h1>
+                <ol>
+                    <li v-for="item in list">{{ item }}</li>
+                </ol>
+                <button v-on:click="hand">Click</button>
+
+                <button v-on:click="show1=!show1">切り替え</button>
+                <p v-if="show1">Hello Vue.js!</p>
+
+                <button v-on:click="show2=!show2">切り替え</button>
+                <transition>
+                    <p v-if="show2">Hello Vue.js!</p>
+                </transition>
+
+                <!-- countプロパティを表示する -->
+                <p>{{ count }}回クリックしたよ！ </p>
+                <!-- このボタンをクリックするとincrementメソッドが呼び出される -->
+                <button v-on:click="increment">カウントを増やす</button>
+
+                <button v-on:click="isActive=!isActive">isActiveを切り替える</button>
+                <p v-bind:class="{ child: isChild, 'is-active': isActive }" class="item">
+                    動的なクラス
+                </p>
+                <p v-bind:style="{ color: textColor, backgroundColor: bgColor }" class="item">
+                    動的なスタイル
+                </p>
+
+                <div id="app">
+                    <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+                        <circle cx="100" cy="75" v-bind:r="radius" fill="lightpink" />
+                    </svg>
+                    <input type="range" min="0" max="100" v-model="radius">
+                </div>
+
+
+                名前
+                <input v-model="name">
+                <button v-on:click="doAdd">モンスターを追加</button>
+                <ul>
+                    <li v-for="(item,index) in monsters"
+                        v-bind:key="item.id"
+                        v-bind:class="{ tuyoi: item.hp > 300 }"
+                        v-if="item.hp">
+                        ID.{{ item.id }} {{ item.name }} HP.{{ item.hp }}
+                        <span v-if="item.hp > 300">つよい！</span>
+                        <span v-if="item.hp < 50">瀕死！</span>
+                        <!-- ボタンはv-for内に作成 -->
+                        <button v-on:click="doAttack(index)">攻撃する</button>
+                        <!-- 削除ボタンをv-for内に作成 -->
+                        <button v-on:click="doRemove(index)">モンスターを削除</button>
+                    </li>
+                </ul>
+
+            </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13"></script>
+            <script src="main.js"></script>
+
+
+        </body>
+    </html>
