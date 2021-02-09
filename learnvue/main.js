@@ -1,3 +1,5 @@
+var scroll = new SmoothScroll()
+
 new Vue({
     el: '#app',
     data: {
@@ -8,6 +10,9 @@ new Vue({
         show2: true,
         count: 0,
 
+        show4: true,
+
+
         isChild: true,
         isActive: true,
 
@@ -16,11 +21,20 @@ new Vue({
 
         radius: 50,
 
+        val:true,
+        val1:[],
+        val2:'',
+
+        preview: '',
+
         monsters: [
-            { id: 1, name: "スライム", hp: 100 },
-            { id: 2, name: "ゴブリン", hp: 200 },
-            { id: 3, name: "ドラゴン", hp: 500 }
-        ]
+            //{ id: 1, name: "スライム", hp: 100 },
+            //{ id: 2, name: "ゴブリン", hp: 200 },
+            //{ id: 3, name: "ドラゴン", hp: 500 }
+        ],
+
+        scrollY: 0,
+        timer: null
         
 
     },
@@ -33,6 +47,15 @@ new Vue({
           console.error(e)
         })
     },
+
+    created: function () {
+        // ハンドラを登録
+        window.addEventListener('scroll', this.handleScroll)
+      },
+      beforeDestroy: function () {
+        // ハンドラを解除（コンポーネントやSPAの場合忘れずに！）
+        window.removeEventListener('scroll', this.handleScroll)
+      },
 
     methods: {
         hand: function (event) {
@@ -74,6 +97,56 @@ new Vue({
             if (count) {
               count.innerText = parseInt(count.innerText, 10) + 1
             }
+        },
+
+        handleCount() {
+            var count2 = this.$refs.count2
+            if (count2) {
+              count2.innerText = parseInt(count2.innerText, 10) + 1
+            }
+        },
+
+        handleInput: function (event) {
+            // 代入前に何か処理を行う…
+            this.message = event.target.value
+        },
+
+        handler: function (comment) {
+            console.log(comment)
+        },
+
+        handleChange: function (event) {
+            var file = event.target.files[0]
+            if (file && file.type.match(/^image\/(png|jpeg)$/)) {
+              this.preview = window.URL.createObjectURL(file)
+            }
+        },
+
+        handleScroll: function () {
+            if (this.timer === null) {
+              this.timer = setTimeout(function () {
+                this.scrollY = window.scrollY
+                clearTimeout(this.timer)
+                this.timer = null
+              }.bind(this), 200)
+            }
+        },
+        scrollTop: function () {
+            scroll.animateScroll(0)
+        },
+
+        handleInput2: function (event) {
+            console.log(event.target.value)
         }
     }
 })
+
+
+$(document).on('click', '[data-update]', function () {
+    $('#mes').val($(this).attr('data-update'))
+    // 入力値を更新したらイベントを発生させる
+    $('#mes')[0].dispatchEvent(new Event('input'))
+})
+
+
+

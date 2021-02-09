@@ -2,15 +2,16 @@
     <html lang="en">
         <head>
             <title>learn vue</title>
-            <meta content="text/html; charset=utf-8" />
+            <meta content="text/html" charset="utf-8" />
             <link href="main.css" rel="stylesheet">
-            
+            <script src="https://cdn.jsdelivr.net/npm/smooth-scroll@12.1.5"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         </head> 
         <body>
             
             <div id='app'>
                 <input v-model="message">
-                <h1>{{ message }}</h1>
+                <h1 v-cloak>{{ message }}</h1>
                 <ol>
                     <li v-for="item in list">{{ item }}</li>
                 </ol>
@@ -63,9 +64,49 @@
                     </li>
                 </ul>
 
+                <button v-on:click="handleCount">カウントアップ</button>
+                <button v-on:click="show4=!show4">表示/非表示</button>
+                <span ref="count2" v-if="show4">0</span>
+
+                <input v-bind:value="message" v-on:change="handleInput">
+
+                <div v-on:click.right="handler">example</div>
+                <!-- 右ボタンを押した時のコンテキストメニューを表示させない -->
+                <div v-on:click.right.prevent="handler">example</div>
+                
+                <label>
+                    <input type="checkbox" v-model="val"> {{ val }}
+                </label>
+
+                <label><input type="checkbox" v-model="val1" value="A"> A</label>
+                <label><input type="checkbox" v-model="val1" value="B"> B</label>
+                <label><input type="checkbox" v-model="val1" value="C"> C</label>
+                <p>{{ val1 }}</p>
+
+                <label><input type="radio" value="a" v-model="val2"> A</label>
+                <label><input type="radio" value="b" v-model="val2"> B</label>
+                <label><input type="radio" value="c" v-model="val2"> C</label>
+                <p>{{ val2 }}</p>
+
+                <input type="file" v-on:change="handleChange">
+                <div v-if="preview"><img v-bind:src="preview"></div>
+
+
+                <div class="content">...</div>
+                <div v-on:click="scrollTop">
+                    ページ上部へ移動
+                </div>
+
+                vue以外からの入力に対して
+                <input id="mes" v-on:input="handleInput2">
+                <button data-update="jQuery!">jQueryからの更新</button>
+
             </div>
+
+
             
             <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13"></script>
+            <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
             <script src="main.js"></script>
 
 
